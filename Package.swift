@@ -9,6 +9,9 @@ let package = Package(
         .library(
             name: "JitsiMeetSDK",
             targets: ["JitsiMeetSDKWrapper"]),
+        .library(
+            name: "JitsiMeetSDKLite",
+            targets: ["JitsiMeetSDKLiteWrapper"]),
     ],
     dependencies: [
         .package(url: "https://github.com/jitsi/webrtc", branch: "M124"),
@@ -27,6 +30,16 @@ let package = Package(
                 .product(name: "GiphyUISDK", package: "giphy-ios-sdk")
             ],
             path: "Sources"
-        )
+        ),
+        .binaryTarget(
+            name: "JitsiMeetSDKLite",
+            path: "lite/Frameworks/JitsiMeetSDK.xcframework"),
+        .target(
+            name: "JitsiMeetSDKLiteWrapper",
+            dependencies: [
+                .target(name: "JitsiMeetSDKLite"),
+                .product(name: "WebRTC", package: "webrtc"),
+            ],
+            path: "lite/Sources"),
     ]
 )
